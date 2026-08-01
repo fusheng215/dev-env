@@ -128,6 +128,12 @@ $psProfile = $PROFILE
 if (-not $psProfile) { $psProfile = "$HomeDir\Documents\PowerShell\Microsoft.PowerShell_profile.ps1" }
 Deploy-Copy "$repo\shell\Microsoft.PowerShell_profile.ps1" $psProfile
 
+# PowerShell 5.1 uses a different profile path (WindowsPowerShell). Deploy the
+# same (now PSReadLine-version-guarded) profile there too, so the legacy host
+# does not error on PredictionSource / PredictionViewStyle on load.
+$ps51Profile = "$HomeDir\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+Deploy-Copy "$repo\shell\Microsoft.PowerShell_profile.ps1" $ps51Profile
+
 # Neovim configuration (directory deploy -> Junction when symlinks unavailable)
 Deploy "$repo\editor\nvim" "$HomeDir\.config\nvim"
 
