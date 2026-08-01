@@ -1,19 +1,22 @@
 # ============================================================
-#  PowerShell 7 profile  ($PROFILE)  â€” dev-env
+#  PowerShell 7 profile  ($PROFILE)  â€?dev-env
 #  Applied to: ~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
 #  Mirrors the Git Bash setup; uses oh-my-posh + PSReadLine + fzf.
 # ============================================================
+if (Get-Module -ListAvailable -Name PSReadLine) {
+    Import-Module PSReadLine -ErrorAction SilentlyContinue
+    $psrl = Get-Module PSReadLine
+    $supportsPrediction = $psrl -and ($psrl.Version -ge [version]'2.1.0')
+    if ($supportsPrediction) {
+        Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+        Set-PSReadLineOption -PredictionViewStyle ListView
+    }
+    Set-PSReadLineOption -EditMode Windows
+    # ...£¨ÆäÓà Set-PSReadLine* ±£³Ö²»±ä£©
+}
 
 # ---------- PSReadLine: better command-line editing ----------
-if (Get-Module -ListAvailable -Name PSReadLine) {
-    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-    Set-PSReadLineOption -PredictionViewStyle ListView
-    Set-PSReadLineOption -EditMode Windows
-    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
-    Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-    Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-    Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
-    Set-PSReadLineOption -Colors @{
+
         Command            = 'Cyan'
         Parameter          = 'DarkCyan'
         String             = 'DarkGreen'
@@ -27,11 +30,14 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
 # ---------- oh-my-posh prompt (cross-shell, configurable) ----------
 # Install via: scoop install oh-my-posh   (or winget install JanDeDobbeleer.OhMyPosh)
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
-    oh-my-posh init pwsh --config "$env:USERPROFILE\.dotfiles-dev\ohmyposh.omp.json" | Invoke-Expression
-}
-# Fallback: if the config isn't present yet, use a built-in theme.
-elseif (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
-    oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\agnoster.omp.json" | Invoke-Expression
+    $ompConfig = "$env:USERPROFILE\.dotfiles-dev\ohmyposh.omp.json"
+    if (Test-Path $ompConfig) {
+        oh-my-posh init pwsh --config $ompConfig | Invoke-Expression
+    }
+    # Fallback: use a built-in theme if the dev-env config isn't deployed yet.
+    elseif ($env:POSH_THEMES_PATH -and (Test-Path "$env:POSH_THEMES_PATH\agnoster.omp.json")) {
+        oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\agnoster.omp.json" | Invoke-Expression
+    }
 }
 
 # ---------- fzf (fuzzy finder) ----------
@@ -99,7 +105,7 @@ if (Get-Command fnm -ErrorAction SilentlyContinue) { fnm env --use-on-cd | Invok
 if (Test-Path "$env:USERPROFILE\.pyenv\pyenv-win\bin\pyenv.bat") {
     $env:PATH = "$env:USERPROFILE\.pyenv\pyenv-win\bin;$env:USERPROFILE\.pyenv\pyenv-win\shims;$env:PATH"
 }
-# SDKMAN (Java) â€” Windows port
+# SDKMAN (Java) â€?Windows port
 if (Test-Path "$env:USERPROFILE\.sdkman\bin\sdkman-init.ps1") {
     . "$env:USERPROFILE\.sdkman\bin\sdkman-init.ps1"
 }
@@ -109,4 +115,4 @@ if (Test-Path "$env:USERPROFILE\.cargo\env.ps1") { . "$env:USERPROFILE\.cargo\en
 # ---------- exports ----------
 $env:EDITOR = 'code --wait'
 
-Write-Host "dev-env ready (PowerShell) â€” Node $(node -v 2>$null), Python $(python -V 2>&1 | Select-Object -Last 1)" -ForegroundColor Cyan
+Write-Host "dev-env ready (PowerShell) â€?Node $(node -v 2>$null), Python $(python -V 2>&1 | Select-Object -Last 1)" -ForegroundColor Cyan
