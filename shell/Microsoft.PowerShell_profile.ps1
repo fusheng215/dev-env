@@ -12,18 +12,19 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
         Set-PSReadLineOption -PredictionViewStyle ListView
     }
     Set-PSReadLineOption -EditMode Windows
-    # ...（其余 Set-PSReadLine* 保持不变）
-}
 
-# ---------- PSReadLine: better command-line editing ----------
-
-        Command            = 'Cyan'
-        Parameter          = 'DarkCyan'
-        String             = 'DarkGreen'
-        Operator           = 'DarkYellow'
-        Variable           = 'Green'
-        Comment            = 'DarkGray'
-        Prediction         = 'Dim'
+    # Colors require PSReadLine >= 2.0
+    $supportsColors = $psrl -and ($psrl.Version -ge [version]'2.0.0')
+    if ($supportsColors) {
+        Set-PSReadLineOption -Colors @{
+            Command     = 'Cyan'
+            Parameter   = 'DarkCyan'
+            String      = 'DarkGreen'
+            Operator    = 'DarkYellow'
+            Variable    = 'Green'
+            Comment     = 'DarkGray'
+            Prediction  = 'Dim'
+        }
     }
 }
 
