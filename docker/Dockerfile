@@ -6,18 +6,45 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-# ----- base system + CLI tools (mirrors Brewfile / winget set) -----
+# ----- base system packages -----
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates curl git gnupg dirmngr gpg build-essential \
-      zip unzip ripgrep bat fd-find git-delta jq gh eza \
       software-properties-common \
+      zip unzip jq \
       libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
       wget llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
       libffi-dev liblzma-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Debian/Ubuntu names the fd binary fdfind; expose it as fd
-RUN ln -sf "$(command -v fdfind)" /usr/local/bin/fd || true
+# ----- CLI tools that mirror the winget/Brewfile set -----
+# ripgrep/bat/fd-find live in universe; bat provides 'batcat', fd-find provides 'fdfind'
+RUN add-apt-repository -y universe \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends ripgrep bat fd-find \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf "$(command -v fdfind)" /usr/local/bin/fd \
+    && ln -sf "$(command -v batcat)" /usr/local/bin/bat || true
+
+# GitHub CLI (official apt repository)
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod 644 /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends gh \
+    && rm -rf /var/lib/apt/lists/*
+
+# git-delta (GitHub release .deb)
+ARG DELTA_VERSION=0.19.2
+RUN curl -fsSL "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb" -o /tmp/git-delta.deb \
+    && dpkg -i /tmp/git-delta.deb || (apt-get update && apt-get install -f -y --no-install-recommends) \
+    && rm -f /tmp/git-delta.deb
+
+# eza (GitHub release binary)
+ARG EZA_VERSION=0.23.5
+RUN curl -fsSL "https://github.com/eza-community/eza/releases/download/v${EZA_VERSION}/eza_x86_64-unknown-linux-gnu.tar.gz" -o /tmp/eza.tar.gz \
+    && tar -xzf /tmp/eza.tar.gz -C /usr/local/bin eza \
+    && chmod +x /usr/local/bin/eza \
+    && rm -f /tmp/eza.tar.gz
 
 # ----- asdf (runtime version manager) -----
 ENV ASDF_ROOT=/opt/asdf
