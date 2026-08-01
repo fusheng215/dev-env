@@ -1,0 +1,27 @@
+# Root .gitattributes — enforce consistent line endings across all platforms.
+# Works together with `core.autocrlf = input` in .gitconfig so that text files
+# are always stored as LF in Git, regardless of the developer's OS.
+# This is what makes the team's checkouts deterministic.
+
+* text=auto eol=lf
+
+# Windows scripts must stay CRLF to execute.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files: never normalize or diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.7z binary
+*.tar binary
+*.gz binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary

@@ -1,0 +1,16 @@
+# .tool-versions — asdf (cross-platform version manager)
+# https://asdf-vm.com
+# `asdf install` reads this file and pins every runtime for the WHOLE team.
+# Commit this file to the repo root so everyone (and CI) uses identical versions.
+
+nodejs 22.12.0
+python 3.13.1
+java    temurin-21.0.10+7
+golang  1.22.5
+rust    1.80.1
+
+# Notes:
+#   .NET  -> global.json (repo root) is picked up automatically by the .NET SDK
+#   Rust  -> rust-toolchain.toml (repo root) is picked up automatically by cargo/rustup
+#   Go    -> pinned here via asdf plugin `golang`; per-project go.mod governs module versions
+# Install the asdf plugins once: asdf plugin add golang && asdf plugin add rust

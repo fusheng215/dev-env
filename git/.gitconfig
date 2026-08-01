@@ -1,0 +1,170 @@
+# ============================================================
+#  Global Git configuration  (managed dotfiles — dev-env)
+#  Applied to: ~/.gitconfig
+#  Designed for cross-platform (Windows / macOS / Linux) teams.
+# ============================================================
+
+[user]
+	name = fusheng215
+	email = 2150097179@qq.com
+
+[core]
+	# Use VS Code as the default commit/edit/diff editor (cross-platform path via PATH).
+	editor = code --wait
+	# Cross-platform line-ending strategy: store LF, checkout as-is per .gitattributes.
+	# `input` converts CRLF->LF on commit (Windows-friendly, team-safe on macOS/Linux).
+	autocrlf = input
+	# Default branch name for new repos.
+	initBranch = main
+	# Better diffs for renamed/moved files.
+	renames = true
+	# Protect files accidentally checked in with wrong permissions.
+	fileMode = false
+	# Global excludes file (OS / editor / language noise).
+	excludesfile = ~/.gitignore_global
+	# Pretty, side-by-side git diffs via delta (install: winget install dandavison.delta).
+	# If `delta` is not on PATH, set this to `less -FRX` (or remove the line).
+	pager = delta
+	# Use a long-running credential cache helper (configured per-OS below).
+	# (Windows: Git Credential Manager; macOS: osxkeychain; Linux: libsecret)
+
+[init]
+	defaultBranch = main
+
+[branch]
+	# Rebase local commits on top of upstream when pulling -> clean linear history.
+	autoSetupRebase = always
+
+[pull]
+	rebase = true
+
+[push]
+	# Push the current branch and set upstream in one step.
+	default = current
+	autoSetupRemote = true
+
+[fetch]
+	# Prune deleted remote-tracking refs automatically.
+	prune = true
+
+[rebase]
+	autoStash = true
+
+[merge]
+	# Use a 3-way tool-friendly conflict style.
+	conflictStyle = zdiff3
+	ff = only
+
+[diff]
+	# Nicer histogram diff algorithm.
+	algorithm = histogram
+	# Color moved code blocks.
+	colorMoved = zebra
+
+[status]
+	# Show branch ahead/behind and shortened status.
+	showUntrackedFiles = normal
+
+[log]
+	# Pretty one-line graph by default for `git log`.
+	date = relative
+
+[help]
+	# Suggest alternatives for typos.
+	autocorrect = 1
+
+[color]
+	ui = auto
+
+[color "branch"]
+	current = yellow bold
+	local = green
+	remote = red
+
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = red
+
+[alias]
+	# --- graph / log ---
+	lg = log --graph --pretty=format:'%C(auto)%h%d %C(cyan)%an %C(green)%ar%C(reset) %s'
+	lga = log --graph --all --pretty=format:'%C(auto)%h%d %C(cyan)%an %C(green)%ar%C(reset) %s'
+	ll = log --pretty=format:'%C(auto)%h %C(cyan)%an %C(green)%ad%C(reset) %s' --date=short
+	recent = log --pretty=format:'%C(auto)%h %C(cyan)%an %C(green)%ad%C(reset) %s' --date=relative -10
+	# --- status / diff ---
+	st = status -sb
+	ss = status -s
+	br = branch -vv
+	df = diff
+	dfs = diff --staged
+	# --- branch ops ---
+	co = checkout
+	cb = checkout -b
+	# Delete a fully merged branch (safe: only if merged into HEAD).
+	bd = branch --delete
+	# Delete a branch even if not merged (use with care).
+	bdf = branch --delete --force
+	# --- commit ---
+	ci = commit -v
+	ca = commit -v -a
+	amend = commit --amend --no-edit
+	# --- fetch / pull / push ---
+	pu = pull --rebase --autostash
+	fa = fetch --all --prune
+	# --- cleanup ---
+	# Remove merged local branches and prune remote refs.
+	cleanup = !"git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d"
+	# --- misc ---
+	unstage = reset HEAD --
+	last = log -1 --stat
+	undo = reset --soft HEAD~1
+	wip = commit -m 'WIP' -a
+	# Show contributors.
+	who = shortlog -n -s --no-merges
+	# List all aliases (handy for the team).
+	aliases = config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/ / = /'
+
+[url "git@github.com:"]
+	insteadOf = gh:
+[url "git@gitlab.com:"]
+	insteadOf = gl:
+
+[filter "lfs"]
+	required = true
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+
+[gpg]
+	# If you sign commits, point this at your key. Left empty for now.
+	# program = gpg
+
+[credential]
+	# Windows: Git Credential Manager handles caching across WSL / Git Bash / PowerShell.
+	helper = manager
+
+[safe]
+	# Allow repos on mounted/network/enterprise paths without per-repo opt-in.
+	# (Add specific paths if your org uses them; keep broad for convenience.)
+	directory = *
+
+[http]
+	# Improve large-clone reliability on flaky networks.
+	postBuffer = 524288000
+	lowSpeedLimit = 1000
+	lowSpeedTime = 60
+
+[pretty]
+	# Named pretty format used by `lg`/`lga`.
+	graph = %C(auto)%h%d %C(cyan)%an %C(green)%ar%C(reset) %s
+
+# ---------- delta: beautiful diffs/pagers (optional, requires dandavison.delta) ----------
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = false
+	line-numbers = true
+	features = decorations
+	whitespace-error-style = 22 reverse

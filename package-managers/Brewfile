@@ -1,0 +1,42 @@
+# Brewfile — Homebrew bundle for macOS / Linux (team dev environment)
+# Usage:  brew bundle --file=Brewfile
+# Reproduces the same toolchain as the Windows Scoop manifest.
+
+tap "homebrew/bundle"
+tap "homebrew/cask"
+
+# ---------- core ----------
+brew "git"
+brew "starship"
+brew "fzf"
+brew "ripgrep"
+brew "bat"
+brew "jq"
+brew "git-delta"
+
+# ---------- runtimes ----------
+brew "node"
+brew "python@3.13"
+brew "openjdk@21"
+brew "go"
+brew "rust"
+
+# ---------- editors / terminal ----------
+cask "visual-studio-code"
+cask "windows-terminal"  # n/a on mac, harmless
+cask "iterm2"
+brew "neovim"
+
+# ---------- tools ----------
+brew "gh"
+brew "docker"
+brew "postman"
+cask "github-desktop"
+
+# ---------- version managers ----------
+brew "asdf"
+brew "fnm"
+
+# Install asdf plugins after `brew bundle`:
+#   asdf plugin add nodejs && asdf plugin add python && asdf plugin add java
+#   asdf install   # reads .tool-versions

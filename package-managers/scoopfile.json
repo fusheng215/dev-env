@@ -1,0 +1,36 @@
+{
+  "description": "Scoop apps manifest for the team dev environment (Windows). Parsed by setup.ps1.",
+  "buckets": [
+    { "name": "main", "repo": "https://github.com/ScoopInstaller/Main" },
+    { "name": "extras", "repo": "https://github.com/ScoopInstaller/Extras" },
+    { "name": "java", "repo": "https://github.com/ScoopInstaller/Java" },
+    { "name": "nirsoft", "repo": "https://github.com/kodybrown/scoop-nirsoft" },
+    { "name": "gsudo", "repo": "https://github.com/gerardog/gsudo" }
+  ],
+  "apps": [
+    "git",
+    "starship",
+    "fzf",
+    "oh-my-posh",
+    "neovim",
+    "ripgrep",
+    "bat",
+    "jq",
+    "delta",
+    "nodejs-lts",
+    "python",
+    "jdk21",
+    "dotnet-sdk",
+    "go",
+    "rust",
+    "vscode",
+    "windows-terminal",
+    "powertoys",
+    "7zip",
+    "gh",
+    "docker",
+    "postman",
+    "github-desktop"
+  ],
+  "notes": "After install, run scripts/apply.ps1 to link these dotfiles into your user profile."
+}

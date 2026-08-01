@@ -1,0 +1,56 @@
+# EditorConfig — cross-editor, cross-language formatting baseline
+# Applied to: ~/.editorconfig  (root = true)
+# This is the single most important file for team reproducibility:
+# it forces consistent indentation, charset and line endings in EVERY
+# editor that supports EditorConfig (VS Code, Neovim, JetBrains, etc.),
+# independent of each developer's personal settings.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+# Keep these files out of language-specific overrides below.
+
+# Windows batch / PowerShell scripts must stay CRLF to execute correctly.
+[*.{bat,cmd,ps1}]
+end_of_line = crlf
+indent_size = 4
+
+# Makefiles REQUIRE real tabs for recipe lines.
+[Makefile]
+indent_style = tab
+
+# Go uses tabs by convention.
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# Rust: 4 spaces.
+[*.rs]
+indent_size = 4
+
+# Python: 4 spaces (PEP 8).
+[*.py]
+indent_size = 4
+max_line_length = 100
+
+# C# / Java / Kotlin / Scala / C++: 4 spaces.
+[*.{cs,java,kt,scala,cpp,cxx,cc,h,hpp,c}]
+indent_size = 4
+
+# Web: 2 spaces.
+[*.{js,jsx,ts,tsx,json,html,css,scss,less,vue,yaml,yml,toml,md}]
+indent_size = 2
+
+# Markdown: don't trim whitespace inside lines (breaks tables / line breaks).
+[*.md]
+trim_trailing_whitespace = false
+
+# Shell scripts: 2 spaces, LF always.
+[*.{sh,bash,zsh}]
+indent_size = 2

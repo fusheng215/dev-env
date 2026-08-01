@@ -1,0 +1,68 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "session",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#ffffff",
+          "background": "#0077c2",
+          "template": " {{ .UserName }} "
+        },
+        {
+          "type": "path",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#ffffff",
+          "background": "#1d8fbf",
+          "template": " {{ .Path }} ",
+          "properties": { "style": "full", "enable_hyperlink": false }
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#ffffff",
+          "background": "#9a348e",
+          "template": " {{ .HEAD }}{{ if .Working.Changed }} \uF044{{ end }}{{ if .Staging.Changed }} \uF046{{ end }} ",
+          "properties": { "fetch_status": true, "fetch_upstream": true }
+        },
+        {
+          "type": "node",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#ffffff",
+          "background": "#2e7d32",
+          "template": " \uE718 {{ .Full }} ",
+          "properties": { "fetch_version": true, "display_mode": "files" }
+        },
+        {
+          "type": "python",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#ffffff",
+          "background": "#f9a825",
+          "template": " \uE235 {{ .Full }} ",
+          "properties": { "fetch_version": true, "display_mode": "files" }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#4caf50",
+          "template": "\u276F "
+        }
+      ]
+    }
+  ]
+}

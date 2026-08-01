@@ -1,0 +1,148 @@
+{
+  // ===== LaTeX (preserved from your existing config) =====
+  "latex-workshop.latex.recipes": [
+    { "name": "xelatex", "tools": ["xelatex"] },
+    { "name": "xelatex ➞ bibtex ➞ xelatex × 2", "tools": ["xelatex", "bibtex", "xelatex", "xelatex"] }
+  ],
+  "latex-workshop.latex.tools": [
+    { "name": "xelatex", "command": "xelatex", "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-halt-on-error", "%DOC%"] },
+    { "name": "bibtex", "command": "bibtex", "args": ["%DOCFILE%"] }
+  ],
+  "latex-workshop.latex.clean.fileTypes": ["*.aux","*.bbl","*.blg","*.idx","*.ind","*.lof","*.lot","*.out","*.toc","*.acn","*.acr","*.alg","*.glg","*.glo","*.gls","*.ist","*.fls","*.log","*.fdb_latexmk"],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.zoom": "auto",
+  "latex-workshop.synctex.afterBuild": true,
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "latex-workshop.message.badbox.show": false,
+  "latex-workshop.message.log.show": false,
+  "latex-workshop.intellisense.package.enabled": true,
+  "latex-workshop.formatting.latex": "latexindent",
+
+  // ===== Editor core (preserved) =====
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "workbench.editor.enablePreview": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": { "source.organizeImports": "explicit" },
+  "files.associations": { "*.tex": "latex" },
+
+  // ===== AI assistants (preserved) =====
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.enable": { "*": true, "plaintext": true, "markdown": true, "scminput": false },
+  "fittencode.languagePreference.displayPreference": "zh-cn",
+  "fittencode.languagePreference.commentPreference": "zh-cn",
+  "python.defaultInterpreterPath": "C:\\Users\\ruomeng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "python.createEnvironment.trigger": "off",
+  "Lingma.aI Chat.commandAllowlistInAgentMode": "where,git,python,pip,mkdir,findstr,Write-Host,$dir1,$dir2,$dir3,$reg,$service,if,$remaining,cmd",
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+  "codingcopilot.autoRun": true,
+  "comments.openView": "never",
+  "[latex]": { "editor.formatOnPaste": false, "editor.suggestSelection": "recentlyUsedByPrefix" },
+  "claudeCode.preferredLocation": "panel",
+
+  // ============================================================
+  //  dev-env additions: syntax highlighting, completion, debugging
+  // ============================================================
+
+  // --- Typography & readability ---
+  "editor.fontFamily": "'Cascadia Code', 'Fira Code', Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "editor.lineHeight": 1.6,
+  "editor.letterSpacing": 0.3,
+
+  // --- Visual aids ---
+  "editor.minimap.enabled": false,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.renderWhitespace": "selection",
+  "editor.renderLineHighlight": "all",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.highlightActiveIndentation": true,
+  "editor.smoothScrolling": true,
+  "editor.mouseWheelZoom": true,
+  "editor.scrollBeyondLastLine": false,
+  "editor.wordWrap": "off",
+  "editor.largeFileOptimizations": true,
+
+  // --- IntelliSense / completion ---
+  "editor.semanticHighlighting.enabled": true,
+  "editor.suggest.preview": true,
+  "editor.suggest.showStatusBar": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
+  "editor.insertSpaces": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "javascript.suggest.autoImports": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  "python.formatting.provider": "black",
+
+  // --- Files ---
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    "**/.git": true, "**/.svn": true, "**/.hg": true, "**/CVS": true,
+    "**/.DS_Store": true, "**/Thumbs.db": true,
+    "**/node_modules": true, "**/.next": true, "**/dist": true, "**/build": true,
+    "**/target": true, "**/bin": true, "**/obj": true,
+    "**/__pycache__": true, "**/.venv": true, "**/.mypy_cache": true,
+    "**/.ruff_cache": true, "**/.pytest_cache": true, "**/.idea": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true, "**/node_modules/**": true, "**/target/**": true,
+    "**/bin/**": true, "**/obj/**": true, "**/.venv/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true, "**/dist": true, "**/build": true, "**/.next": true,
+    "**/target": true, "**/bin": true, "**/obj": true, "**/__pycache__": true, "**/.venv": true
+  },
+  "search.followSymlinks": false,
+
+  // --- Explorer ---
+  "explorer.compactFolders": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.sortOrder": "foldersNestFoldersFirst",
+
+  // --- Workbench ---
+  "workbench.startupEditor": "none",
+  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.tree.indent": 14,
+
+  // --- Privacy / security ---
+  "telemetry.telemetryLevel": "off",
+  "security.workspace.trust.enabled": true,
+
+  // --- Debugging ---
+  "debug.showInlineBreakpointCandidates": true,
+  "debug.internalConsoleOptions": "openOnSessionStart",
+  "debug.allowBreakpointsEverywhere": true,
+
+  // --- Integrated terminal (Git Bash) ---
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.scrollback": 10000,
+
+  // --- Version control ---
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.pruneOnFetch": true,
+  "git.showProgress": true,
+
+  // --- Per-language formatting (respects .editorconfig) ---
+  "[python]":   { "editor.defaultFormatter": "ms-python.black-formatter", "editor.tabSize": 4 },
+  "[jsonc]":    { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]":     { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[rust]":     { "editor.defaultFormatter": "rust-lang.rust-analyzer", "editor.tabSize": 4 },
+  "[go]":       { "editor.tabSize": 4 },
+  "[csharp]":   { "editor.tabSize": 4 }
+}

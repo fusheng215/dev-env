@@ -1,0 +1,72 @@
+name: Build & Push CI base image
+
+# Keeps the Docker CI image in lockstep with the team's pinned runtimes.
+# Rebuilds & pushes to ghcr.io whenever the runtime pins change (or the
+# Dockerfile / build script changes), so CI always runs on the exact
+# versions developers have locally.
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'runtime/.tool-versions'
+      - 'runtime/global.json'
+      - 'runtime/rust-toolchain.toml'
+      - 'runtime/.node-version'
+      - 'docker/**'
+      - '.github/workflows/build-ci-image.yml'
+  # Weekly rebuild so the ubuntu:22.04 base + apt packages stay patched
+  # even when our pins don't change.
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}/dev-env-ci
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute tags
+        id: tags
+        run: |
+          DATE=$(date -u +%Y%m%d)
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ steps.tags.outputs.date }}
+            ${{ env.IMAGE }}:sha-${{ steps.tags.outputs.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test the pushed image
+        run: |
+          docker run --rm "${{ env.IMAGE }}:latest" bash -c \
+            'node -v && python -V && java -version && dotnet --version && go version && rustc --version'

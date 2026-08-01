@@ -1,0 +1,8 @@
+# OS noise
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Backups produced by apply.ps1 (should never live in the repo)
+*.bak

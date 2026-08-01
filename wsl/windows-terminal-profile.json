@@ -1,0 +1,9 @@
+{
+  "guid": "{2d2f4e1a-0c9a-4f6b-9e3d-1234567890ab}",
+  "name": "Ubuntu (WSL) - dev-env",
+  "commandline": "wsl.exe -d Ubuntu",
+  "startingDirectory": "//wsl$/Ubuntu/home/ruomeng",
+  "colorScheme": "Tokyo Night",
+  "font": { "face": "Cascadia Code", "size": 11 },
+  "icon": "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png"
+}
